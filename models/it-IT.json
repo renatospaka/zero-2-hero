@@ -92,6 +92,24 @@
                 {
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
+                },
+				{		
+                    "name": "SayBirthdayIntent",		
+                    "slots": [],		
+                    "samples": [		
+                        "il mio prossimo compleanno",
+                        "prossimo compleanno",
+                        "quando è il mio compleanno",
+                        "il mio compleanno",
+                        "quanto manca al mio compleanno",
+                        "giorni al mio compleanno",
+                        "compleanno",
+                        "info compleanno",
+                        "dimmi i giorni rimasti al mio compleanno",
+                        "dimmi quanto manca al mio compleanno",
+						"quanti giorni",
+						"quanto manca"	
+                    ]		
                 }
             ],
             "types": [

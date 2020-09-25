@@ -82,6 +82,28 @@
                 {
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
+                },
+                {
+                    "name": "SayBirthdayIntent",
+                    "slots": [],
+                    "samples": [
+                        "me dire le nombre de jours avant ma fête",
+                        "dis-moi combien de temps reste-t-il avant ma fête",
+                        "dis-moi quand est ma fête",
+                        "quand a lieu ma fête",
+                        "quand est ma fête",
+                        "Il reste combien de temps avant ma fête",
+                        "Il reste combien de jours avant ma fête",
+                        "combien de temps reste-t-il",
+                        "combien de temps reste-t-il avant ma fête",
+                        "combien de jours reste-t-il",
+                        "combien de jours reste-t-il avant ma fête",
+                        "combien de jours avant ma fête",
+                        "nombre de jours restant",
+                        "nombre de jours restant avant ma fête",
+                        "nombre de jours avant ma fête",
+                        "fête"
+                    ]
                 }
             ],
             "types": [
@@ -343,7 +365,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "Je ne crois pas que vous êtes si jeune. Quelle est votre véritable année de naissance ?"
+                        "value": "Je ne crois pas vous êtes si jeune. Quelle est votre véritable année de naissance ?"
                     }
                 ]
             },

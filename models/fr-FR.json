@@ -78,6 +78,28 @@
                 {
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
+                },
+                {
+                    "name": "SayBirthdayIntent",
+                    "slots": [],
+                    "samples": [
+                        "me dire le nombre de jours avant mon anniversaire",
+                        "dis-moi combien de temps reste-t-il avant mon anniversaire",
+                        "dis-moi quand est mon anniversaire",
+                        "quand a lieu mon anniversaire",
+                        "quand est mon anniversaire",
+                        "il reste combien de temps avant mon anniversaire",
+                        "il reste combien de jours avant mon anniversaire",
+                        "combien de temps reste-t-il",
+                        "combien de temps reste-t-il avant mon anniversaire",
+                        "combien de jours reste-t-il",
+                        "combien de jours reste-t-il avant mon anniversaire",
+                        "combien de jours avant mon anniversaire",
+                        "nombre de jours restant",
+                        "nombre de jours restant avant mon anniversaire",
+                        "nombre de jours avant mon anniversaire",
+                        "anniversaire"
+                    ]
                 }
             ],
             "types": [

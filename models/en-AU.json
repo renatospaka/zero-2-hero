@@ -93,6 +93,28 @@
                     "samples": []
                 },
                 {
+                    "name": "SayBirthdayIntent",
+                    "slots": [],
+                    "samples": [
+                        "my next birthday",
+                        "next birthday",
+                        "when is my birthday",
+                        "when is my next birthday",
+                        "my birthday",
+                        "remaining days until my birthday",
+                        "days until my birthday",
+                        "days left",
+                        "how many days until my birthday",
+                        "how many days left",
+                        "tell me my birthday",
+                        "birthday",
+                        "give me my birthday",
+                        "birthday info",
+                        "tell me the remaining days until my birthday",
+                        "how many days"
+                    ]
+                },
+                {
                     "name": "AMAZON.FallbackIntent",
                     "samples": []
                 }
@@ -284,7 +306,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "ok. I heard you birthday is in {month} but which day exactly?"
+                        "value": "ok. I heard you birthday is in {month}, but which day exactly?"
                     },
                     {
                         "type": "PlainText",
@@ -383,7 +405,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "{month} {day} {year} , did I get that right?"
+                        "value": "That's {month} {day} {year} , did I get that right?"
                     },
                     {
                         "type": "PlainText",
