@@ -10,9 +10,10 @@ const i18n = require('i18next');
 const languageStrings = {
     en: {
         translation: {
-            WELCOME_MSG: 'Welcome, you can say Hello or Help. Which would you like to try?',
-            HELLO_MSG: 'Hello World!',
-            HELP_MSG: 'You can say hello to me! How can I help?',
+            WELCOME_MSG: `Welcome to Happy Birthday. Let's have some fun with your birthday! `,
+            REGISTER_MSG: 'Your birthday is {{month}} {{day}} {{year}}.',
+            REJECTED_MSG: 'No problem. Please say the date again so I can get it right.',
+            HELP_MSG: `You can tell me your date of birth and I'll take note. You can also just say, register my birthday and I will guide you. Which one would you like to try?`,
             GOODBYE_MSG: 'Goodbye!',
             REFLECTOR_MSG: 'You just triggered {{intent}}',
             FALLBACK_MSG: 'Sorry, I don\'t know about that. Please try again.',
@@ -21,46 +22,44 @@ const languageStrings = {
     },
     it: {
         translation: {
-            WELCOME_MSG: 'Buongiorno! Puoi salutarmi con un ciao, o chiedermi aiuto. Cosa preferisci fare?',
-            HELLO_MSG: 'Ciao!',
-            HELP_MSG: 'Dimmi ciao e io ti risponderò! Come posso aiutarti?',
+            WELCOME_MSG: `Benvenuto a Buon Compleanno. Esploreremo un paio di funzionalità usando la tua data di nascita! `,
+            REGISTER_MSG: 'Il tuo compleanno è il {{day}} di {{month}}, {{year}}.',
+            REJECTED_MSG: 'Nessun problema. Per favore ridimmi la data e sistemiamo subito.',
+            HELP_MSG: `Dimmi la tua data di nascita e me la segnerò. Altrimenti puoi chiedermi di ricordarti il tuo compleanno e ti guido io passo per passo. Come preferisci procedere?`,
             GOODBYE_MSG: 'A presto!',
             REFLECTOR_MSG: 'Hai invocato l\'intento {{intent}}',
             FALLBACK_MSG: 'Perdonami, penso di non aver capito bene. Riprova.',
             ERROR_MSG: 'Scusa, c\'è stato un errore. Riprova.'
         }
-    },
+    },    
     es: {
         translation: {
-            WELCOME_MSG: 'Bienvenido, puedes decir Hola o Ayuda. Cual prefieres?',
-            HELLO_MSG: 'Hola Mundo!',
-            HELP_MSG: 'Puedes decirme hola. Cómo te puedo ayudar?',
+            WELCOME_MSG: 'Te doy la bienvenida a Feliz Cumpleaños. Vamos a divertirnos un poco con tu cumpleaños! ',
+            REGISTER_MSG: 'Tu fecha de cumpleaños es el {{day}} de {{month}} de {{year}}.',
+            REJECTED_MSG: 'No pasa nada. Por favor dime la fecha otra vez y lo corregimos.',
+            HELP_MSG: 'Puedes decirme el día, mes y año de tu nacimiento y tomaré nota de ello. También puedes decirme, registra mi cumpleaños y te guiaré. Qué quieres hacer?',
             GOODBYE_MSG: 'Hasta luego!',
             REFLECTOR_MSG: 'Acabas de activar {{intent}}',
             FALLBACK_MSG: 'Lo siento, no se nada sobre eso. Por favor inténtalo otra vez.',
-            ERROR_MSG: 'Lo siento, ha habido un error. Por favor inténtalo otra vez.'
+            ERROR_MSG: 'Lo siento, ha habido un problema. Por favor inténtalo otra vez.'
         }
     },
     fr:{
         translation: {
-            WELCOME_MSG: 'Bienvenue sur le génie des salutations, dites-moi bonjour et je vous répondrai',
-            HELLO_MSG: 'Bonjour à tous!',
-            HELP_MSG: 'Dites-moi bonjour et je vous répondrai!',
+            WELCOME_MSG: 'Bienvenue sur la Skill des anniversaires! ',
+            REGISTER_MSG: 'Votre date de naissance est le {{day}} {{month}} {{year}}.',
+            REJECTED_MSG: 'D\'accord, je ne vais pas prendre en compte cette date. Dites-moi une autre date pour que je puisse l\'enregistrer.',
+            HELP_MSG: 'Je peux me souvenir de votre date de naissance. Dites-moi votre jour, mois et année de naissance ou bien dites-moi simplement \'"enregistre mon anniversaire"\' et je vous guiderai. Quel est votre choix ?',
             GOODBYE_MSG: 'Au revoir!',
             REFLECTOR_MSG: 'Vous avez invoqué l\'intention {{intent}}',
-            FALLBACK_MSG: 'Désolé, je ne sais pas. Pouvez-vous reformuler?',
+            FALLBACK_MSG: 'Désolé, je ne sais pas répondre à votre demande. Pouvez-vous reformuler?.',
             ERROR_MSG: 'Désolé, je n\'ai pas compris. Pouvez-vous reformuler?'
         }
     },
-    'pt':{
+    "fr-CA": {
         translation: {
-            WELCOME_MSG: 'Olá, você pode dizer olá ou ajuda. Quais deles voce deseja testar?',
-            HELLO_MSG: 'Olá!',
-            HELP_MSG: 'Você pode dizer olá para mim! Como posso ajudar?',
-            GOODBYE_MSG: 'Até logo!',
-            REFLECTOR_MSG: 'Você acaba de iniciar {{intent}}',
-            FALLBACK_MSG: 'Desculpe, não sei nada sobre isso. Por favor tente novamente.',
-            ERROR_MSG: 'Desculpe, occoreu um erro. Por favor tente novamtne.'
+            WELCOME_MSG: 'Bienvenue sur la Skill des fêtes! ',
+            HELP_MSG: 'Je peux me souvenir de votre date de naissance. Dites-moi votre jour, mois et année de naissance ou bien dites-moi simplement \'sauve ma fête\' et je vous guiderai. Quel est votre choix ?',
         }
     }
 }
@@ -74,22 +73,40 @@ const LaunchRequestHandler = {
 
         return handlerInput.responseBuilder
             .speak(speechText)
-            .reprompt(handlerInput.t('HELP_MSG'))
+            // we use intent chaining to trigger the birthday registration multi-turn
+            .addDelegateDirective({
+                name: 'RegisterBirthdayIntent',
+                confirmationStatus: 'NONE',
+                slots: {}
+            })
             .getResponse();
     }
 };
 
-const HelloWorldIntentHandler = {
+const RegisterBirthdayIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RegisterBirthdayIntent';
     },
     handle(handlerInput) {
-        const speechText = handlerInput.t('HELLO_MSG');
+        const {requestEnvelope, responseBuilder} = handlerInput;
+        const {intent} = requestEnvelope.request;
 
-        return handlerInput.responseBuilder
+        let speechText = handlerInput.t('REJECTED_MSG');
+
+        if (intent.confirmationStatus === 'CONFIRMED') {
+            const day = Alexa.getSlotValue(requestEnvelope, 'day');
+            const year = Alexa.getSlotValue(requestEnvelope, 'year');
+            const month = Alexa.getSlotValue(requestEnvelope, 'month');
+
+            speechText = handlerInput.t('REGISTER_MSG', {day: day, month: month, year: year}); // we'll save these values in the next module
+        } else {
+            const repromptText = handlerInput.t('HELP_MSG');
+            responseBuilder.reprompt(repromptText);
+        }
+        
+        return responseBuilder
             .speak(speechText)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
             .getResponse();
     }
 };
@@ -104,7 +121,7 @@ const HelpIntentHandler = {
 
         return handlerInput.responseBuilder
             .speak(speechText)
-            .reprompt(handlerInput.t('HELP_MSG'))
+            .reprompt(speechText)
             .getResponse();
     }
 };
@@ -167,7 +184,7 @@ const IntentReflectorHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
     },
     handle(handlerInput) {
-        const intentName = handlerInput.requestEnvelope.request.intent.name;
+        const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
         const speechText = handlerInput.t('REFLECTOR_MSG', {intent: intentName});
 
         return handlerInput.responseBuilder
@@ -221,7 +238,7 @@ const LocalisationRequestInterceptor = {
         });
     }
 };
-/**
+/* *
  * This handler acts as the entry point for your skill, routing all request and response
  * payloads to the handlers above. Make sure any new handlers or interceptors you've
  * defined are included below. The order matters - they're processed top to bottom 
@@ -229,7 +246,7 @@ const LocalisationRequestInterceptor = {
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
-        HelloWorldIntentHandler,
+        RegisterBirthdayIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,
@@ -242,5 +259,5 @@ exports.handler = Alexa.SkillBuilders.custom()
         LoggingRequestInterceptor)
     .addResponseInterceptors(
         LoggingResponseInterceptor)
-    .withCustomUserAgent('sample/happy-birthday/mod2')
+    .withCustomUserAgent('sample/happy-birthday/mod3')
     .lambda();
